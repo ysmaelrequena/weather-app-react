@@ -12,6 +12,7 @@ function App() {
 
   const [currentWeather, setCurrentWeather] = useState('');
   const [forecastInfo, setForecastInfo] = useState('');
+  const [coordinates, setCoordinates] = useState('');
 
   function getLocation() {
     return new Promise((resolve, reject) => {
@@ -22,19 +23,16 @@ function App() {
 useEffect(() => {
 
   async function fetchCurrentData() {
-
     try{
       const position = await getLocation();
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      console.log(latitude);
-      console.log(longitude);
+      setCoordinates(`${position.coords.latitude},${position.coords.longitude}`)
+     
 
-      const currentDataResponse = await fetch(`http://api.weatherapi.com/v1/current.json?key=582d21bc64c146b9ac1143058233108&q=${latitude},${longitude}&aqi=no`)
+      const currentDataResponse = await fetch(`http://api.weatherapi.com/v1/current.json?key=582d21bc64c146b9ac1143058233108&q=${coordinates}&aqi=no`)
       const currentData = await currentDataResponse.json();
       setCurrentWeather(currentData);
 
-      const forecastDataResponse = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=582d21bc64c146b9ac1143058233108&q=${latitude},${longitude}&days=8&aqi=no&alerts=no`)
+      const forecastDataResponse = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=582d21bc64c146b9ac1143058233108&q=${coordinates}&days=8&aqi=no&alerts=no`)
       const forecastData = await forecastDataResponse.json();
       setForecastInfo(forecastData);
 
@@ -45,7 +43,7 @@ useEffect(() => {
       }
     }
 fetchCurrentData();
-  }, []);
+  }, [coordinates]);
 
   //Obtener informacion de la ubicacion del usuario para el header
   
@@ -187,7 +185,12 @@ function createDailyWeather() {
       const autoCompleteResponseMap = acData.map((elem) => {
         return (
           <>
-          <button key={elem.id} className='city-url-search-bar'>{elem.name}, {elem.country}</button>
+          <button 
+          key={elem.id} 
+          className='city-url-search-bar'
+          onClick={() => setCoordinates(`${elem.lat},${elem.lon}`)}>
+            {elem.name}, {elem.country}
+            </button>
           </>
         )
       });
