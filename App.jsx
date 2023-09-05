@@ -2,6 +2,7 @@ import { useState,  useEffect } from 'react'
 import CurrentWeatherHeader from './header.jsx'
 import HourlyWeather from './hourlyweather.jsx'
 import DailyWeather from './dailyweather.jsx'
+import SearchBar from './searchbar.jsx'
 import { nonMilitaryTime, militaryTime } from './hours.js';
 
 
@@ -45,6 +46,7 @@ useEffect(() => {
     }
 fetchCurrentData();
   }, []);
+
   //Obtener informacion de la ubicacion del usuario para el header
   
       const cityNameHeader = currentWeather.location?.name;
@@ -174,11 +176,38 @@ function createDailyWeather() {
   return dailyWeatherMap;
 }
 
+//Creacion del search bar
 
-      
-        
+ const [autoCompleteResult, setAutoCompleteResult] = useState('');
+
+  async function handleChange(inputVal) {
+    try {
+      const autoCompleteResponse = await fetch(`http://api.weatherapi.com/v1/search.json?key=582d21bc64c146b9ac1143058233108&q=${inputVal}`)
+      const acData = await autoCompleteResponse.json();
+      const autoCompleteResponseMap = acData.map((elem) => {
+        return (
+          <>
+          <button key={elem.id} className='city-url-search-bar'>{elem.name}, {elem.country}</button>
+          </>
+        )
+      });
+
+      setAutoCompleteResult(autoCompleteResponseMap);
+      console.log(acData);
+    } 
+    
+    catch(error) {
+      console.log(error);
+    }
+  }
+
+ 
+
   return (
     <>
+    <section className='search-bar' id='searchbar'>
+      <SearchBar onInputChange={handleChange} searchResult={autoCompleteResult} />
+    </section>
     <CurrentWeatherHeader cityName={cityNameHeader} currentTemp={currentWeather.current?.temp_f} feelsLike={currentWeather.current?.feelslike_f} maxTemp={maxTempDisplay} minTemp={minTempDisplay} />
     <HourlyWeather hourlyInfo={createHourlyWeather()} />
     <DailyWeather dailyInfo={createDailyWeather()} />
