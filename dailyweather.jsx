@@ -1,6 +1,6 @@
 import App from './App.jsx'
 
-function DailyWeather({dailyInfo}) {
+function DailyWeather({ dailyInfo }) {
 
     return (
         <div className='daily-weather-container'>

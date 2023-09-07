@@ -13,14 +13,15 @@ function SearchBar(props) {
         props.onInputChange(newValue);
         console.log(newValue)
     }
+
     
     return (
-        <div>
-            <input type='search' id='citysearch' className='city-search' placeholder={inputVal} onChange={handleInputChange}></input>
-            <div>
+        <div className='search-bar-container'>
+            <input type='search' id='citysearch' className='city-search' placeholder={inputVal} onChange={handleInputChange} ></input>
+            <div className='city-option-display'>
                 {props.searchResult}
             </div>
-        </div>
+    </div>
     )
     
 }

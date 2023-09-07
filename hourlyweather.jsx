@@ -4,11 +4,11 @@ function HourlyWeather({hourlyInfo}) {
     
 
     return (
-        <div className='daily-weather-container'>
-            <div>
-                <h5>{hourlyInfo}</h5>
+        <section className='hourly-weather-sec'>
+            <div className='hourly-weather-cont'>
+               {hourlyInfo}
             </div> 
-        </div>
+        </section>
     )
 }
 
