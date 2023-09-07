@@ -15,27 +15,32 @@ function App() {
   const [coordinates, setCoordinates] = useState('');
 
   function getLocation() {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject)
-      })
+      navigator.geolocation.getCurrentPosition(success)
     }    
 
-useEffect(() => {
+    function success(position) {
+      setCoordinates(`${position.coords.latitude},${position.coords.longitude}`)
+      localStorage.setItem('coordinates',`${position.coords.latitude},${position.coords.longitude}`)
+    }
 
+    useEffect(() => {
+      getLocation()
+    },[])
+
+useEffect(() => {
+  console.log('puta')
   async function fetchCurrentData() {
     try{
-      const position = await getLocation();
-      setCoordinates(`${position.coords.latitude},${position.coords.longitude}`)
-     
-
-      const currentDataResponse = await fetch(`http://api.weatherapi.com/v1/current.json?key=582d21bc64c146b9ac1143058233108&q=${coordinates}&aqi=no`)
+      const localCoordinates = localStorage.getItem('coordinates');
+      const currentDataResponse = await fetch(`http://api.weatherapi.com/v1/current.json?key=582d21bc64c146b9ac1143058233108&q=${coordinates || localCoordinates}&aqi=no`)
+      console.log(coordinates)
       const currentData = await currentDataResponse.json();
       setCurrentWeather(currentData);
 
-      const forecastDataResponse = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=582d21bc64c146b9ac1143058233108&q=${coordinates}&days=8&aqi=no&alerts=no`)
+      const forecastDataResponse = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=582d21bc64c146b9ac1143058233108&q=${coordinates || localCoordinates}&days=8&aqi=no&alerts=no`)
+      console.log(coordinates)
       const forecastData = await forecastDataResponse.json();
       setForecastInfo(forecastData);
-
       }
 
     catch (error){
@@ -171,6 +176,7 @@ function createDailyWeather() {
     )
   })
   console.log(forecastInfo)
+  console.log('holi')
   return dailyWeatherMap;
 }
 
@@ -181,7 +187,7 @@ function createDailyWeather() {
   async function handleChange(inputVal) {
     try {
       const autoCompleteResponse = await fetch(`http://api.weatherapi.com/v1/search.json?key=582d21bc64c146b9ac1143058233108&q=${inputVal}`)
-      const acData = await autoCompleteResponse.json();
+      const acData = await autoCompleteResponse.json() || [];
       const autoCompleteResponseMap = acData.map((elem) => {
         return (
           <>
@@ -203,8 +209,6 @@ function createDailyWeather() {
       console.log(error);
     }
   }
-
- 
 
   return (
     <>
