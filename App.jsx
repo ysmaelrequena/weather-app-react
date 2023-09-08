@@ -84,11 +84,9 @@ fetchCurrentData();
          const correctedHour = inputString.match(timeRegex)[0];
          const iconURL = elem.condition?.icon;
           return (
-            <div key={elem.time_epoch}>
-              <div>
+              <h5 key={elem.time_epoch} className='hourly-weather-elem'>
                {correctedHour} <img src={iconURL} alt="temp icon" width="50" height="40" class='weather-icon' /> {elem.temp_f}°F
-             </div>
-           </div>
+             </h5>
          );
        });
    } else {
@@ -182,9 +180,6 @@ function createDailyWeather() {
   async function handleChange(inputVal) {
     try {
 
-      const onClickConfig = {
-        display: none,
-      }
       const autoCompleteResponse = await fetch(`http://api.weatherapi.com/v1/search.json?key=582d21bc64c146b9ac1143058233108&q=${inputVal}`);
       const acData = await autoCompleteResponse.json() || [];
       const autoCompleteResponseMap = acData.map((elem) => {
@@ -221,7 +216,9 @@ function createDailyWeather() {
     <section className='header-container'>
     <CurrentWeatherHeader cityName={cityNameHeader} currentTemp={currentWeather.current?.temp_f} feelsLike={currentWeather.current?.feelslike_f} maxTemp={maxTempDisplay} minTemp={minTempDisplay} />
     </section>
+    <section className='hourly-weather-sec'>
     <HourlyWeather hourlyInfo={createHourlyWeather()} />
+    </section>
     <DailyWeather dailyInfo={createDailyWeather()} />
     </>
   )
