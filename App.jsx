@@ -3,6 +3,7 @@ import CurrentWeatherHeader from './header.jsx'
 import HourlyWeather from './hourlyweather.jsx'
 import DailyWeather from './dailyweather.jsx'
 import SearchBar from './searchbar.jsx'
+import Background from './background.jsx'
 import { nonMilitaryTime, militaryTime } from './hours.js';
 
 
@@ -37,7 +38,6 @@ useEffect(() => {
       setCurrentWeather(currentData);
 
       const forecastDataResponse = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=582d21bc64c146b9ac1143058233108&q=${coordinates || localCoordinates}&days=8&aqi=no&alerts=no`)
-      console.log(coordinates)
       const forecastData = await forecastDataResponse.json();
       setForecastInfo(forecastData);
       }
@@ -85,7 +85,7 @@ fetchCurrentData();
          const iconURL = elem.condition?.icon;
           return (
               <h5 key={elem.time_epoch} className='hourly-weather-elem'>
-               {correctedHour} <img src={iconURL} alt="temp icon" width="50" height="40" class='weather-icon' /> {elem.temp_f}°F
+               {correctedHour} <img src={iconURL} alt="temp icon" width="50" height="40" className='weather-icon' /> {elem.temp_f}°F
              </h5>
          );
        });
@@ -105,7 +105,7 @@ fetchCurrentData();
           const iconURL = elem.condition?.icon;
           return (
            <h5 key={elem.time_epoch} className='hourly-weather-elem'>   
-               {correctedHour} <img src={iconURL} alt="temp icon" width="50" height="40" class='weather-icon'/> {elem.temp_f}°F
+               {correctedHour} <img src={iconURL} alt="temp icon" width="50" height="40" className='weather-icon'/> {elem.temp_f}°F
            </h5>
          );
         });
@@ -125,7 +125,7 @@ fetchCurrentData();
         const iconURL = elem.condition?.icon;
         return (
           <h5 key={elem.time_epoch} className='hourly-weather-elem'>
-              {correctedHour} <img src={iconURL} alt="temp icon" width="50" height="40" /> {elem.temp_f}°F
+              {correctedHour} <img src={iconURL} alt="temp icon" width="50" height="40" className='weather-icon'/> {elem.temp_f}°F
           </h5>
         );
       });
@@ -160,16 +160,15 @@ function createDailyWeather() {
     const minTemp = elem.day?.mintemp_f;
 
     
-    return (
-      <div key={elem.date_epoch}>
-        <div>
-          {nextDay}: H:{highTemp}°F L:{minTemp}°F <img src={icon} alt="temp icon" width="50" height="40"/>
-        </div>
+    return ( 
+      <div className='daily-elem-box' key={nextDay}>
+         <h5 className='daily-weather-elem' key={elem.date_epoch}>
+          {nextDay}: <img src={icon} alt="temp icon" width="50" height="40"/> H:{highTemp}°F L:{minTemp}°F 
+         </h5>
       </div>
     )
   })
   console.log(forecastInfo)
-  console.log('holi')
   return dailyWeatherMap;
 }
 
@@ -184,7 +183,7 @@ function createDailyWeather() {
       const acData = await autoCompleteResponse.json() || [];
       const autoCompleteResponseMap = acData.map((elem) => {
 
-        if (acData !== []) {
+        
           return (
             <>
             <button 
@@ -195,7 +194,7 @@ function createDailyWeather() {
               </button>
             </>
           )
-        } 
+        
         
       });
 
@@ -211,7 +210,7 @@ function createDailyWeather() {
   return (
     <>
     <section className='search-bar' id='searchbar'>
-      <SearchBar onInputChange={handleChange} searchResult={autoCompleteResult} />
+      <SearchBar onInputChange={handleChange} coordinates={coordinates} searchResult={autoCompleteResult} />
     </section>
     <section className='header-container'>
     <CurrentWeatherHeader cityName={cityNameHeader} currentTemp={currentWeather.current?.temp_f} feelsLike={currentWeather.current?.feelslike_f} maxTemp={maxTempDisplay} minTemp={minTempDisplay} />
@@ -219,7 +218,10 @@ function createDailyWeather() {
     <section className='hourly-weather-sec'>
     <HourlyWeather hourlyInfo={createHourlyWeather()} />
     </section>
+    <section className='daily-weather-sec'>
     <DailyWeather dailyInfo={createDailyWeather()} />
+    </section>
+    <Background />
     </>
   )
 }

@@ -4,10 +4,8 @@ function DailyWeather({ dailyInfo }) {
 
     return (
         <div className='daily-weather-container'>
-            <div className="daily-weather-info">
-                <h4>{dailyInfo}</h4>
+               {dailyInfo}
             </div>
-        </div>
     )
 }
 

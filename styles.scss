@@ -23,7 +23,7 @@ html {
     .search-bar {
         width: 100vw;
         height: 12vh;
-        margin-top: 0px;
+        margin-top: 10px;
         margin-bottom: 0px;
         display: flex;
         justify-content: center;
@@ -76,6 +76,7 @@ html {
             outline: none;
             background-color: rgba(210, 215, 211, 0.2); 
             border-radius: 40px;
+
             .header-text {
                 text-align: center;
                 margin-bottom: 0;
@@ -121,5 +122,33 @@ html {
             margin: auto;
         }
    } 
+
+//daily weather config
+
+   .daily-weather-sec{
+    margin-top: 10px;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+        .daily-weather-container{
+        width: 60vw;
+        height: auto;
+        border-radius: 50px;
+        align-content: center;
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        border: 2px solid;
+        margin-bottom: 10px;
+        overflow: hidden;
+        }
+        .daily-elem-box{
+            inline-size: min-content;
+        }
+            .daily-weather-elem{
+                text-align: center;
+            }
+   }
     
 

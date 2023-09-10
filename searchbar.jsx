@@ -1,11 +1,12 @@
 import App from './App.jsx'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 
 
 function SearchBar(props) {
 
     const [inputVal, setInputVal] = useState('');
+    const directions = useRef()
 
     const handleInputChange= (event) => {
         const newValue = event.target.value;
@@ -14,11 +15,18 @@ function SearchBar(props) {
         console.log(newValue)
     }
 
-    
+    useEffect(() => {
+        directions.current.style.display = 'none';
+    }, [props.coordinates])
+
+    useEffect(() => {
+        directions.current.style.display = 'block';
+    }, [inputVal])
+  
     return (
         <div className='search-bar-container'>
-            <input type='search' id='citysearch' className='city-search' placeholder={inputVal} onChange={handleInputChange} ></input>
-            <div className='city-option-display'>
+            <input type='search' id='citysearch' className='city-search' placeholder={inputVal} onChange={handleInputChange}></input>
+            <div className='city-option-display' ref={directions}>
                 {props.searchResult}
             </div>
     </div>

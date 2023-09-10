@@ -18,7 +18,7 @@ html {
   .search-bar {
     width: 100vw;
     height: 12vh;
-    margin-top: 0px;
+    margin-top: 10px;
     margin-bottom: 0px;
     display: flex;
     justify-content: center;
@@ -110,4 +110,31 @@ html {
   border-radius: 10px;
   background-color: rgba(210, 215, 211, 0.2);
   margin: auto;
+}
+
+.daily-weather-sec {
+  margin-top: 10px;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.daily-weather-sec .daily-weather-container {
+  width: 60vw;
+  height: auto;
+  border-radius: 50px;
+  align-content: center;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  border: 2px solid;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.daily-weather-sec .daily-elem-box {
+  inline-size: -moz-min-content;
+  inline-size: min-content;
+}
+.daily-weather-sec .daily-weather-elem {
+  text-align: center;
 }/*# sourceMappingURL=styles.css.map */
