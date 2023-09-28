@@ -3,7 +3,10 @@ import CurrentWeatherHeader from './header.jsx'
 import HourlyWeather from './hourlyweather.jsx'
 import DailyWeather from './dailyweather.jsx'
 import SearchBar from './searchbar.jsx'
-import Background from './background.jsx'
+import sunny from './sunny.jpg'
+import cloudy from './cloudy.jpg'
+import rain from './rain.jpg'
+import night from './night.jpg'
 import { nonMilitaryTime, militaryTime } from './hours.js';
 
 
@@ -85,7 +88,7 @@ fetchCurrentData();
          const iconURL = elem.condition?.icon;
           return (
               <h5 key={elem.time_epoch} className='hourly-weather-elem'>
-               {correctedHour} <img src={iconURL} alt="temp icon" width="50" height="40" className='weather-icon' /> {elem.temp_f}°F
+               {correctedHour} <img src={iconURL} alt="temp icon" className='weather-icon' /> {elem.temp_f}°F
              </h5>
          );
        });
@@ -105,7 +108,7 @@ fetchCurrentData();
           const iconURL = elem.condition?.icon;
           return (
            <h5 key={elem.time_epoch} className='hourly-weather-elem'>   
-               {correctedHour} <img src={iconURL} alt="temp icon" width="50" height="40" className='weather-icon'/> {elem.temp_f}°F
+               {correctedHour} <img src={iconURL} alt="temp icon" className='weather-icon'/> {elem.temp_f}°F
            </h5>
          );
         });
@@ -125,7 +128,7 @@ fetchCurrentData();
         const iconURL = elem.condition?.icon;
         return (
           <h5 key={elem.time_epoch} className='hourly-weather-elem'>
-              {correctedHour} <img src={iconURL} alt="temp icon" width="50" height="40" className='weather-icon'/> {elem.temp_f}°F
+              {correctedHour} <img src={iconURL} alt="temp icon" className='weather-icon'/> {elem.temp_f}°F
           </h5>
         );
       });
@@ -163,7 +166,7 @@ function createDailyWeather() {
     return ( 
       <div className='daily-elem-box' key={nextDay}>
          <h5 className='daily-weather-elem' key={elem.date_epoch}>
-          {nextDay}: <img src={icon} alt="temp icon" width="50" height="40"/> H:{highTemp}°F L:{minTemp}°F 
+          {nextDay}: <img src={icon} alt="temp icon" className='weather-icon-daily'/> H:{highTemp}°F L:{minTemp}°F 
          </h5>
       </div>
     )
@@ -207,8 +210,9 @@ function createDailyWeather() {
     }
   }
 
+  // function para elegir el fondo
   return (
-    <>
+    <div className='app-container background'>
     <section className='search-bar' id='searchbar'>
       <SearchBar onInputChange={handleChange} coordinates={coordinates} searchResult={autoCompleteResult} />
     </section>
@@ -221,8 +225,7 @@ function createDailyWeather() {
     <section className='daily-weather-sec'>
     <DailyWeather dailyInfo={createDailyWeather()} />
     </section>
-    <Background />
-    </>
+    </div>
   )
 }
 

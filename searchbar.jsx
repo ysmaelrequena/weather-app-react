@@ -20,7 +20,7 @@ function SearchBar(props) {
     }, [props.coordinates])
 
     useEffect(() => {
-        directions.current.style.display = 'block';
+        directions.current.style.display = '';
     }, [inputVal])
   
     return (
